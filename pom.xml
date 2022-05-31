@@ -276,6 +276,9 @@
   <profiles>
     <profile>
       <id>css</id>
+      <properties>
+        <spring.profiles.active>mysql</spring.profiles.active>
+      </properties>
       <build>
         <plugins>
           <plugin>
