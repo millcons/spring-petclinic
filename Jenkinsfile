@@ -78,7 +78,7 @@ pipeline {
                     sh '''
                         #!/usr/bin/bash
                         PID=`ps aux | grep spring-petclinic |  grep -v auto | head -n 1 | awk '{print $2}'`
-                        kill -9 $PID 2>/dev/null
+                        if [[ $PID != '' ]]; then kill -9 $PID; fi
                         '''
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
                         sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar &'
