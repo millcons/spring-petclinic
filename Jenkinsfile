@@ -18,9 +18,9 @@ pipeline {
                     dir('spring-petclinic') {
                         deleteDir()
                     }
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
                     //sh 'git clone https://github.com/millcons/spring-petclinic.git'
                     dir('spring-petclinic') {
+                        checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
                         sh 'ls -la'
                         sh 'pwd'
                         sh 'mvn package'
