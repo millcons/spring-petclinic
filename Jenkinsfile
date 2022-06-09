@@ -74,8 +74,8 @@ pipeline {
                     //sh 'sudo chown :ubuntu /var/lib/tomcat9/webapps'
                     sh 'sudo systemctl stop tomcat9'
                     sh 'mkdir -p /home/ubuntu/webapp'
+                    sh 'rm -rf /home/ubuntu/webapp/spring-petclinic.jar'
                     sh 'cp /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar /home/ubuntu/webapp/spring-petclinic.jar'
-                    sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar stop'
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
                     sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar &'
                     }
