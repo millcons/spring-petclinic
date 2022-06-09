@@ -75,10 +75,11 @@ pipeline {
                 node('prod') {
                     //sh 'sudo chown :ubuntu /var/lib/tomcat9/webapps'
                     sh 'sudo systemctl stop tomcat9'
-                    sh 'mkdir /home/ubuntu/webapp'
-                    sh 'kill $(cat ./pid.file)'
+                    sh 'mkdir -p /home/ubuntu/webapp'
+                    sh 'kill $(cat ./pid.file) 2>/dev/null' 
+                    sh 'cp /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar /home/ubuntu/webapp/spring-petclinic.jar'
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
-                    sh 'java -jar /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar & echo $! > ./pid.file &'
+                    sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar & echo $! > ./pid.file &'
                     }
                     echo 'Done!'
                     //sh 'java -jar -Dspring.profiles.active=mysql /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar'
