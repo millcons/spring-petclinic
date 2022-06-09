@@ -20,6 +20,8 @@ pipeline {
                     }
                     checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
                     //sh 'git clone https://github.com/millcons/spring-petclinic.git'
+                    sh 'ls -la'
+                    sh 'pwd'
                     dir('spring-petclinic') {
                         sh 'mvn package'
                     }
