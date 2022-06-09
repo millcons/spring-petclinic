@@ -5,7 +5,8 @@ pipeline {
         stage('Make or check dev') {
             steps {
                 cleanWs()
-                sh 'git clone git@github.com:millcons/terraform-cicd-task.git'
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
+                //sh 'git clone git@github.com:millcons/terraform-cicd-task.git'
                 dir('terraform-cicd-task/dev/') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
