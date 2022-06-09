@@ -75,7 +75,7 @@ pipeline {
                     sh 'sudo systemctl stop tomcat9'
                     sh 'mkdir -p /home/ubuntu/webapp'
                     sh 'cp /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar /home/ubuntu/webapp/spring-petclinic.jar'
-                    sh 'PID=`ps aux | grep spring-petclinic | grep -v auto | awk '{print $2}'`'
+                    sh "PID=`ps aux | grep spring-petclinic | grep -v auto | awk '{print $2}'`"
                     sh 'kill -9 $PID'
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
                         sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar &'
