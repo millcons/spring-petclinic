@@ -32,15 +32,13 @@ pipeline {
         stage('Deliver artifact to s3') {
             steps {
                 node('dev') {
-                    sh 'ls -la'
-                    sh 'pwd'
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
                         credentialsId: "awsdeployer",
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        sh 'aws s3 cp /home/ubuntu/workspace/DeployPipeline/spring-petclinic/target/spring-petclinic-2.7.0-SNAPSHOT.jar s3://artifactkeeper/'
+                        sh 'aws s3 cp /home/ubuntu/workspace/DeployPipeline/target/spring-petclinic-2.7.0-SNAPSHOT.jar s3://artifactkeeper/'
                     }
                 }
             }
