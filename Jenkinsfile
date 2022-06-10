@@ -32,6 +32,8 @@ pipeline {
         stage('Deliver artifact to s3') {
             steps {
                 node('dev') {
+                    sh 'ls -la'
+                    sh 'pwd'
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
                         credentialsId: "awsdeployer",
