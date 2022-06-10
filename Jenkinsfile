@@ -74,14 +74,11 @@ pipeline {
                     sh 'sudo systemctl stop tomcat9'
                     sh '''
                         #!/usr/bin/bash
-                        if [[ -e "/home/ubuntu/.javapid" ]]; then 
-                            PID=$(cat /home/ubuntu/.javapid) 
-                            sudo kill -9 $PID
-                        fi
+                        if [[ -e "/home/ubuntu/.javapid" ]]; then PID=$(cat /home/ubuntu/.javapid) && kill -9 $PID; fi
                         '''
-                    sh 'sudo rm -rf /home/ubuntu/webapp'
-                    sh 'sudo mkdir -p /home/ubuntu/webapp'
-                    sh 'sudo mv /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar /home/ubuntu/webapp/spring-petclinic.jar'
+                    sh 'rm -rf /home/ubuntu/webapp'
+                    sh 'mkdir /home/ubuntu/webapp'
+                    sh 'mv /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar /home/ubuntu/webapp/spring-petclinic.jar'
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
                         sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar & echo $! > /home/ubuntu/.javapid &'
                     }
