@@ -52,9 +52,9 @@ pipeline {
                         sh 'terraform init'
                         sh 'terraform apply -auto-approve'
                         sh 'PROD_IP=`terraform output prod_public_ip`'
-                        sh 'echo $PROD_IP'
+                        sh "echo $PROD_IP"
                         echo 'hmm'
-                        echo '$PROD_IP'
+                        echo "${PROD_IP}"
 
                 }
             }
