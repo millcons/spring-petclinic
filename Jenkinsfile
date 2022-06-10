@@ -78,12 +78,12 @@ pipeline {
                     sh 'mv /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar /home/ubuntu/webapp/spring-petclinic.jar'
                     sh '''
                         #!/usr/bin/bash
-                        PID=`ps aux | grep spring-petclinic |  grep -v grep | head -n 1 | awk '{print $2}'`
+                        #PID=`ps aux | grep spring-petclinic |  grep -v grep | head -n 1 | awk '{print $2}'`
                         #kill -9 $PID
-                        if [[ -n "$PID" ]]; then kill -9 $PID; fi
+                        if [[ -e "/home/ubuntu/.javapid" ]]; then PID=$(cat /home/ubuntu/.javapid); kill -9 $PID; fi
                         '''
                     //withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
-                    sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar &'
+                    sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar & echo $! > /home/ubuntu/.javapid &'
                     //}
                     echo 'Done!'
                     //sh 'java -jar -Dspring.profiles.active=mysql /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar'
