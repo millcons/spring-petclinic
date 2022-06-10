@@ -51,7 +51,7 @@ pipeline {
                     dir('terraform-cicd-task/prod/') {
                         sh 'terraform init'
                         sh 'terraform apply -auto-approve'
-                        sh 'PROD_IP=`terraform output`'
+                        sh 'PROD_IP=`terraform output prod_public_ip`'
 
                 }
             }
