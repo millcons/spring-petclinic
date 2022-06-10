@@ -15,17 +15,8 @@ pipeline {
         stage('Build on dev') {
             steps {
                 node('dev') {
-                    //cleanWs()
-                    //dir('spring-petclinic') {
-                    //    deleteDir()
-                    //}
-                    //sh 'git clone https://github.com/millcons/spring-petclinic.git'
-                    //dir('spring-petclinic') {
-                    sh 'ls -la'
                     checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
-                    sh 'ls -la'
                     sh 'mvn package'
-                    //}
                 }
             }
         }    
@@ -54,7 +45,6 @@ pipeline {
                     dir('terraform-cicd-task/prod/') {
                         sh 'terraform init'
                         sh 'terraform apply -auto-approve'
-                        //sh 'PROD_IP=`terraform output prod_public_ip`'
                         script {
                             PROD_IP = sh(returnStdout: true, script: 'terraform output --raw prod_public_ip')
                         }
