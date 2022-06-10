@@ -71,7 +71,6 @@ pipeline {
         stage('Start app') {
             steps {
                 node('prod') {
-                    //sh 'sudo chown :ubuntu /var/lib/tomcat9/webapps'
                     sh 'sudo systemctl stop tomcat9'
                     sh '''
                         #!/usr/bin/bash
