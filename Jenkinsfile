@@ -51,10 +51,10 @@ pipeline {
                     dir('terraform-cicd-task/prod/') {
                         sh 'terraform init'
                         sh 'terraform apply -auto-approve'
-                        sh 'PROD_IP=`terraform output prod_public_ip`'
-                        sh "echo $PROD_IP"
-                        echo 'hmm'
-                        echo "${PROD_IP}"
+                        //sh 'PROD_IP=`terraform output prod_public_ip`'
+                        script {
+                            PROD_IP = sh(returnStdout: true, script: 'terraform output prod_public_ip')
+                        }
 
                 }
             }
@@ -95,7 +95,7 @@ pipeline {
         stage('finish') {
             steps {
                 echo "finish"
-                emailext body: "Pipeline ${JOB_NAME} built ${currentBuild.currentResult} Prod ip:$PROD_IP:8080", subject: 'job.notification for build ${BUILD_ID}', to: 'konstantin.in.ua@gmail.com'
+                emailext body: "Pipeline ${JOB_NAME} built ${currentBuild.currentResult} Prod ip:${PROD_IP}:8080", subject: 'job.notification for build ${BUILD_ID}', to: 'konstantin.in.ua@gmail.com'
             }
         }
     }
