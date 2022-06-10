@@ -15,7 +15,7 @@ pipeline {
         stage('Build on dev') {
             steps {
                 node('dev') {
-                    cleanWs()
+                    //cleanWs()
                     //dir('spring-petclinic') {
                     //    deleteDir()
                     //}
