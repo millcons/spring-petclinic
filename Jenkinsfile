@@ -15,13 +15,15 @@ pipeline {
         stage('Build on dev') {
             steps {
                 node('dev') {
+                    cleanWs()
                     //dir('spring-petclinic') {
                     //    deleteDir()
                     //}
                     //sh 'git clone https://github.com/millcons/spring-petclinic.git'
                     //dir('spring-petclinic') {
-                        checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
-                        sh 'mvn package'
+                    sh 'ls -la'
+                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
+                    sh 'mvn package'
                     //}
                 }
             }
