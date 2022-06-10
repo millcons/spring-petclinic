@@ -23,6 +23,7 @@ pipeline {
                     //dir('spring-petclinic') {
                     sh 'ls -la'
                     checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
+                    sh 'ls -la'
                     sh 'mvn package'
                     //}
                 }
