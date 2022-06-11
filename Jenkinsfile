@@ -1,6 +1,5 @@
 pipeline {
     agent { label 'main' }
-
     stages {
         stage('Make or check dev') {
             steps {
@@ -20,7 +19,6 @@ pipeline {
                         script {
                             PROD_IP = sh(returnStdout: true, script: 'terraform output --raw prod_public_ip')
                         }
-
                 }
             }
         }
@@ -79,7 +77,6 @@ pipeline {
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
                         sh 'java -jar /home/ubuntu/webapp/spring-petclinic.jar & echo $! > /home/ubuntu/.javapid &'
                     }
-                    
                     echo 'Done!'
                     //sh 'java -jar -Dspring.profiles.active=mysql /home/ubuntu/spring-petclinic-2.7.0-SNAPSHOT.jar'
                 }
