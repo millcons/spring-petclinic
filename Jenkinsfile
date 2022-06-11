@@ -12,6 +12,18 @@ pipeline {
                 }
             }
         }
+        stage('Make or check prod') {
+            steps {
+                    dir('terraform-cicd-task/prod/') {
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                        script {
+                            PROD_IP = sh(returnStdout: true, script: 'terraform output --raw prod_public_ip')
+                        }
+
+                }
+            }
+        }
         stage('Build on dev') {
             steps {
                 node('dev') {
@@ -38,18 +50,6 @@ pipeline {
             steps {
                 echo 'input message:"Deploy to prod?"'
                 //input message:"Deploy to prod?"
-            }
-        }
-        stage('Make or check prod') {
-            steps {
-                    dir('terraform-cicd-task/prod/') {
-                        sh 'terraform init'
-                        sh 'terraform apply -auto-approve'
-                        script {
-                            PROD_IP = sh(returnStdout: true, script: 'terraform output --raw prod_public_ip')
-                        }
-
-                }
             }
         }
         stage('Copy artifact from s3') {
@@ -88,7 +88,7 @@ pipeline {
         stage('finish') {
             steps {
                 echo "finish"
-                emailext body: "Pipeline ${JOB_NAME} built ${currentBuild.currentResult} Prod ip:http://${PROD_IP}:8080", subject: 'job.notification for build ${BUILD_ID}', to: 'konstantin.in.ua@gmail.com'
+                emailext body: "Pipeline ${JOB_NAME} built ${currentBuild.currentResult} \n Prod server ip: http://${PROD_IP}:8080", subject: 'job.notification for build ${BUILD_ID}', to: 'konstantin.in.ua@gmail.com'
             }
         }
     }
