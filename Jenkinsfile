@@ -26,7 +26,8 @@ pipeline {
             steps {
                 node('dev') {
                     checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-pem', url: 'https://github.com/millcons/spring-petclinic.git']]])
-                    sh 'mvn package'
+                    sh 'mvn spring-boot:run -Dspring-boot.run.profiles=mysql'
+                    //sh 'mvn package'
                 }
             }
         }    
